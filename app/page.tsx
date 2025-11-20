@@ -1,8 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Loader2, AlertCircle } from 'lucide-react';
-import MarkdownPreview from './components/MarkdownPreview';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowRight, Loader2 } from 'lucide-react';
+import InputWorkspace from './components/InputWorkspace';
+import ComparisonDeck from './components/ComparisonDeck';
+import ReferenceDrawer from './components/ReferenceDrawer';
+import AnchorRail from './components/AnchorRail';
 
 const WITTY_MESSAGES = [
   "Teaching AI grammar...",
@@ -16,13 +19,23 @@ const WITTY_MESSAGES = [
 ];
 
 export default function Home() {
+  // State
   const [blogContent, setBlogContent] = useState('');
   const [seoContext, setSeoContext] = useState('');
+  const [additionalInstructions, setAdditionalInstructions] = useState('');
   const [localizedContent, setLocalizedContent] = useState('');
+  const [styleGuide, setStyleGuide] = useState('');
+  const [glossary, setGlossary] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
+  const [activeSection, setActiveSection] = useState('input-workspace');
 
+  // Refs for scrolling
+  const mainContainerRef = useRef<HTMLDivElement>(null);
+
+  // Witty Message Rotator
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isLoading) {
@@ -32,6 +45,38 @@ export default function Home() {
     }
     return () => clearInterval(interval);
   }, [isLoading]);
+
+  // Intersection Observer for Active Section
+  useEffect(() => {
+    const container = mainContainerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        root: container,
+        threshold: 0.5, // Trigger when 50% of the section is visible
+      }
+    );
+
+    const sections = document.querySelectorAll('#input-workspace, #comparison-deck, #reference-drawer');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleNavigate = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleLocalize = async () => {
     if (!blogContent.trim()) {
@@ -52,6 +97,9 @@ export default function Home() {
         body: JSON.stringify({
           blog_content: blogContent,
           seo_context: seoContext,
+          additional_instructions: additionalInstructions,
+          // Future: style_guide: styleGuide,
+          // Future: glossary: glossary,
         }),
       });
 
@@ -62,6 +110,12 @@ export default function Home() {
       }
 
       setLocalizedContent(data.localized_content);
+
+      // Auto-scroll to Comparison Deck on success
+      setTimeout(() => {
+        handleNavigate('comparison-deck');
+      }, 100);
+
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
     } finally {
@@ -70,91 +124,76 @@ export default function Home() {
   };
 
   return (
-    <main className="flex h-screen flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden font-sans">
-      {/* Header */}
-      <header className="h-16 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 flex items-center justify-between px-6 shrink-0 z-10">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">L</div>
-          <h1 className="text-xl font-semibold tracking-tight">Localizer</h1>
-        </div>
+    <main className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden font-sans">
 
-        <button
-          onClick={handleLocalize}
-          disabled={isLoading || !blogContent.trim()}
-          className={`
-            flex items-center gap-2 px-5 py-2 rounded-md font-medium transition-all
-            ${isLoading || !blogContent.trim()
-              ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm hover:shadow-md active:transform active:scale-95'}
-          `}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>{WITTY_MESSAGES[loadingMessageIndex]}</span>
-            </>
-          ) : (
-            <>
-              <span>Localize to German</span>
-              <ArrowRight className="w-4 h-4" />
-            </>
-          )}
-        </button>
-      </header>
+      {/* Anchor Rail */}
+      <AnchorRail activeSection={activeSection} onNavigate={handleNavigate} />
 
-      {/* Main Content - Split Screen */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Main Scrollable Content */}
+      <div ref={mainContainerRef} className="flex-1 flex flex-col overflow-y-auto scroll-smooth snap-y snap-mandatory">
 
-        {/* Left Pane: Input Zone */}
-        <div className="w-[40%] flex flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+        {/* Input Workspace */}
+        <div className="snap-start min-h-screen relative">
+          <InputWorkspace
+            blogContent={blogContent}
+            setBlogContent={setBlogContent}
+            seoContext={seoContext}
+            setSeoContext={setSeoContext}
+            additionalInstructions={additionalInstructions}
+            setAdditionalInstructions={setAdditionalInstructions}
+          />
 
-          {/* Top Section: Blog Content (70%) */}
-          <div className="h-[70%] flex flex-col p-4 border-b border-gray-200 dark:border-gray-800">
-            <label className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
-              English Blog Content (Markdown)
-            </label>
-            <textarea
-              value={blogContent}
-              onChange={(e) => setBlogContent(e.target.value)}
-              placeholder="# Paste your English Markdown here..."
-              className="flex-1 w-full resize-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              spellCheck={false}
-            />
-          </div>
-
-          {/* Bottom Section: SEO Context (30%) */}
-          <div className="h-[30%] flex flex-col p-4 bg-gray-50/50 dark:bg-gray-900/50">
-            <label className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
-              SEO Context & Instructions
-            </label>
-            <textarea
-              value={seoContext}
-              onChange={(e) => setSeoContext(e.target.value)}
-              placeholder="Keywords: xbox, gaming...&#10;Tone: Professional but friendly..."
-              className="flex-1 w-full resize-none bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              spellCheck={false}
-            />
+          {/* Floating Action Button for Localize */}
+          <div className="absolute bottom-8 right-8 z-10">
+            <button
+              onClick={handleLocalize}
+              disabled={isLoading || !blogContent.trim()}
+              className={`
+                flex items-center gap-2 px-6 py-3 rounded-full font-medium text-lg shadow-lg transition-all
+                ${isLoading || !blogContent.trim()
+                  ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-xl active:transform active:scale-95'}
+              `}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <span>{WITTY_MESSAGES[loadingMessageIndex]}</span>
+                </>
+              ) : (
+                <>
+                  <span>Localize to German</span>
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Right Pane: Preview Zone */}
-        <div className="w-[60%] flex flex-col bg-gray-50 dark:bg-gray-900 relative">
-          <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-gray-50 dark:from-gray-900 to-transparent z-10 pointer-events-none" />
-
-          <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
-            {error ? (
-              <div className="flex flex-col items-center justify-center h-full text-red-500 animate-in fade-in zoom-in duration-300">
-                <AlertCircle className="w-12 h-12 mb-4 opacity-80" />
-                <h3 className="text-lg font-semibold">Localization Failed</h3>
-                <p className="text-sm opacity-80 mt-2 text-center max-w-md">{error}</p>
-              </div>
-            ) : (
-              <div className="max-w-3xl mx-auto bg-white dark:bg-gray-950 shadow-sm border border-gray-200 dark:border-gray-800 min-h-[800px] p-12 rounded-lg">
-                <MarkdownPreview content={localizedContent} />
-              </div>
-            )}
-          </div>
+        {/* Comparison Deck */}
+        <div className="snap-start min-h-screen">
+          <ComparisonDeck
+            blogContent={blogContent}
+            localizedContent={localizedContent}
+            isLoading={isLoading}
+            error={error}
+            wittyMessage={WITTY_MESSAGES[loadingMessageIndex]}
+          />
         </div>
+
+        {/* Reference Drawer */}
+        <div className="snap-start">
+          <ReferenceDrawer
+            styleGuide={styleGuide}
+            setStyleGuide={setStyleGuide}
+            glossary={glossary}
+            setGlossary={setGlossary}
+          />
+        </div>
+
+        {/* Spacer for bottom scrolling */}
+        <div className="h-24"></div>
+
       </div>
     </main>
   );

@@ -1,0 +1,100 @@
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp, Eye, EyeOff } from 'lucide-react';
+import MarkdownPreview from './MarkdownPreview';
+
+interface ReferenceDrawerProps {
+    styleGuide: string;
+    setStyleGuide: (value: string) => void;
+    glossary: string;
+    setGlossary: (value: string) => void;
+}
+
+export default function ReferenceDrawer({
+    styleGuide,
+    setStyleGuide,
+    glossary,
+    setGlossary,
+}: ReferenceDrawerProps) {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [showStyleGuidePreview, setShowStyleGuidePreview] = useState(false);
+    const [showGlossaryPreview, setShowGlossaryPreview] = useState(false);
+
+    return (
+        <div id="reference-drawer" className={`flex flex-col bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-all duration-300 ${isCollapsed ? 'h-16' : 'h-96'}`}>
+            <div
+                className="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
+                onClick={() => setIsCollapsed(!isCollapsed)}
+            >
+                <h2 className="text-lg font-semibold flex items-center gap-2">
+                    Reference Drawer
+                    <span className="text-xs font-normal text-gray-500 uppercase tracking-wider ml-2">(Style Guide & Glossary)</span>
+                </h2>
+                {isCollapsed ? <ChevronUp className="w-5 h-5 text-gray-500" /> : <ChevronDown className="w-5 h-5 text-gray-500" />}
+            </div>
+
+            {!isCollapsed && (
+                <div className="flex-1 flex p-6 gap-6 overflow-hidden">
+                    {/* Style Guide */}
+                    <div className="flex-1 flex flex-col">
+                        <div className="flex justify-between items-center mb-2">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Style Guide
+                            </label>
+                            <button
+                                onClick={() => setShowStyleGuidePreview(!showStyleGuidePreview)}
+                                className="text-gray-500 hover:text-blue-600 transition-colors"
+                                title={showStyleGuidePreview ? "Edit" : "Preview"}
+                            >
+                                {showStyleGuidePreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                        </div>
+
+                        {showStyleGuidePreview ? (
+                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
+                                <MarkdownPreview content={styleGuide || '*No style guide defined.*'} />
+                            </div>
+                        ) : (
+                            <textarea
+                                value={styleGuide}
+                                onChange={(e) => setStyleGuide(e.target.value)}
+                                placeholder="# Markdown Style Guide..."
+                                className="flex-1 w-full resize-none bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                spellCheck={false}
+                            />
+                        )}
+                    </div>
+
+                    {/* Glossary */}
+                    <div className="flex-1 flex flex-col">
+                        <div className="flex justify-between items-center mb-2">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
+                                Glossary
+                            </label>
+                            <button
+                                onClick={() => setShowGlossaryPreview(!showGlossaryPreview)}
+                                className="text-gray-500 hover:text-blue-600 transition-colors"
+                                title={showGlossaryPreview ? "Edit" : "Preview"}
+                            >
+                                {showGlossaryPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                            </button>
+                        </div>
+
+                        {showGlossaryPreview ? (
+                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
+                                <MarkdownPreview content={glossary || '*No glossary terms defined.*'} />
+                            </div>
+                        ) : (
+                            <textarea
+                                value={glossary}
+                                onChange={(e) => setGlossary(e.target.value)}
+                                placeholder="Term: Definition..."
+                                className="flex-1 w-full resize-none bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                spellCheck={false}
+                            />
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
