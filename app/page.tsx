@@ -133,7 +133,7 @@ export default function Home() {
       {/* Main Scrollable Content */}
       <div ref={mainContainerRef} className="flex-1 flex flex-col overflow-y-auto scroll-smooth snap-y snap-mandatory">
 
-        {/* Input Workspace */}
+        {/* InputWorkspace */}
         <div className="snap-start min-h-screen relative">
           <InputWorkspace
             blogContent={blogContent}
@@ -142,33 +142,10 @@ export default function Home() {
             setSeoContext={setSeoContext}
             additionalInstructions={additionalInstructions}
             setAdditionalInstructions={setAdditionalInstructions}
+            handleLocalize={handleLocalize}
+            isLoading={isLoading}
+            wittyMessage={WITTY_MESSAGES[loadingMessageIndex]}
           />
-
-          {/* Floating Action Button for Localize */}
-          <div className="absolute bottom-8 right-8 z-10">
-            <button
-              onClick={handleLocalize}
-              disabled={isLoading || !blogContent.trim()}
-              className={`
-                flex items-center gap-2 px-6 py-3 rounded-full font-medium text-lg shadow-lg transition-all
-                ${isLoading || !blogContent.trim()
-                  ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-xl active:transform active:scale-95'}
-              `}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>{WITTY_MESSAGES[loadingMessageIndex]}</span>
-                </>
-              ) : (
-                <>
-                  <span>Localize to German</span>
-                  <ArrowRight className="w-5 h-5" />
-                </>
-              )}
-            </button>
-          </div>
         </div>
 
         {/* Comparison Deck */}
@@ -183,7 +160,7 @@ export default function Home() {
         </div>
 
         {/* Reference Drawer */}
-        <div className="snap-start">
+        <div className="snap-start min-h-screen">
           <ReferenceDrawer
             styleGuide={styleGuide}
             setStyleGuide={setStyleGuide}
@@ -191,9 +168,6 @@ export default function Home() {
             setGlossary={setGlossary}
           />
         </div>
-
-        {/* Spacer for bottom scrolling */}
-        <div className="h-24"></div>
 
       </div>
     </main>

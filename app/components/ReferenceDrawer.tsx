@@ -59,22 +59,16 @@ export default function ReferenceDrawer({
     };
 
     return (
-        <div id="reference-drawer" className={`flex flex-col bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-all duration-300 ${isCollapsed ? 'h-16' : 'h-96'}`}>
-            <div
-                className="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-                onClick={() => setIsCollapsed(!isCollapsed)}
-            >
-                <h2 className="text-lg font-semibold flex items-center gap-2">
+        <div id="reference-drawer" className="flex flex-col h-screen bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex-1 flex flex-col p-6 border-b border-gray-200 dark:border-gray-800 overflow-hidden">
+                <h2 className="text-lg font-semibold mb-4 shrink-0 flex items-center gap-2">
                     Reference Drawer
                     <span className="text-xs font-normal text-gray-500 uppercase tracking-wider ml-2">(Style Guide & Glossary)</span>
                 </h2>
-                {isCollapsed ? <ChevronUp className="w-5 h-5 text-gray-500" /> : <ChevronDown className="w-5 h-5 text-gray-500" />}
-            </div>
 
-            {!isCollapsed && (
-                <div className="flex-1 flex p-6 gap-6 overflow-hidden">
+                <div className="flex-1 flex gap-6 min-h-0">
                     {/* Style Guide */}
-                    <div className="flex-1 flex flex-col">
+                    <div className="flex-1 flex flex-col h-full">
                         <div className="flex justify-between items-center mb-2">
                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
                                 Style Guide
@@ -106,7 +100,7 @@ export default function ReferenceDrawer({
                         </div>
 
                         {showStyleGuidePreview ? (
-                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
+                            <div className="flex-1 w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
                                 <MarkdownPreview content={styleGuide || '*No style guide defined.*'} />
                             </div>
                         ) : (
@@ -114,14 +108,14 @@ export default function ReferenceDrawer({
                                 value={styleGuide}
                                 onChange={(e) => setStyleGuide(e.target.value)}
                                 placeholder="# Markdown Style Guide..."
-                                className="flex-1 w-full resize-none bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                className="flex-1 w-full resize-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                 spellCheck={false}
                             />
                         )}
                     </div>
 
                     {/* Glossary */}
-                    <div className="flex-1 flex flex-col">
+                    <div className="flex-1 flex flex-col h-full">
                         <div className="flex justify-between items-center mb-2">
                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
                                 Glossary
@@ -136,7 +130,7 @@ export default function ReferenceDrawer({
                         </div>
 
                         {showGlossaryPreview ? (
-                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
+                            <div className="flex-1 w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
                                 <MarkdownPreview content={glossary || '*No glossary terms defined.*'} />
                             </div>
                         ) : (
@@ -144,13 +138,13 @@ export default function ReferenceDrawer({
                                 value={glossary}
                                 onChange={(e) => setGlossary(e.target.value)}
                                 placeholder="Term: Definition..."
-                                className="flex-1 w-full resize-none bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                className="flex-1 w-full resize-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                 spellCheck={false}
                             />
                         )}
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 }
