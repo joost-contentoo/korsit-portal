@@ -106,7 +106,7 @@ export default function Home() {
       <div className="flex-1 flex overflow-hidden">
 
         {/* Left Pane: Input Zone */}
-        <div className="w-1/2 flex flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+        <div className="w-[40%] flex flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
 
           {/* Top Section: Blog Content (70%) */}
           <div className="h-[70%] flex flex-col p-4 border-b border-gray-200 dark:border-gray-800">
@@ -138,7 +138,7 @@ export default function Home() {
         </div>
 
         {/* Right Pane: Preview Zone */}
-        <div className="w-1/2 flex flex-col bg-gray-50 dark:bg-gray-900 relative">
+        <div className="w-[60%] flex flex-col bg-gray-50 dark:bg-gray-900 relative">
           <div className="absolute top-0 left-0 right-0 h-10 bg-gradient-to-b from-gray-50 dark:from-gray-900 to-transparent z-10 pointer-events-none" />
 
           <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
