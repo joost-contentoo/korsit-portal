@@ -25,6 +25,7 @@ export default function ComparisonDeck({
     const [copiedLocalized, setCopiedLocalized] = useState(false);
 
     const handleScroll = (source: 'source' | 'localized') => {
+        if (typeof window !== 'undefined' && window.innerWidth < 1024) return;
         if (isScrolling.current) return;
         isScrolling.current = true;
 
@@ -74,14 +75,14 @@ export default function ComparisonDeck({
     };
 
     return (
-        <div id="comparison-deck" className="flex flex-col h-screen min-h-screen bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+        <div id="comparison-deck" className="flex flex-col h-auto lg:h-screen min-h-screen bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
             <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Comparison Deck</h2>
             </div>
 
-            <div className="flex-1 flex overflow-hidden">
+            <div className="flex-1 flex flex-col lg:flex-row lg:overflow-hidden">
                 {/* Source Pane */}
-                <div className="w-1/2 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+                <div className="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-800 flex flex-col min-h-[50vh] lg:min-h-0">
                     <div className="p-4 bg-gray-100 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
                         <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Source (English)</h3>
                         <div className="flex gap-2">
@@ -110,7 +111,7 @@ export default function ComparisonDeck({
                 </div>
 
                 {/* Localized Pane */}
-                <div className="w-1/2 flex flex-col relative">
+                <div className="w-full lg:w-1/2 flex flex-col relative min-h-[50vh] lg:min-h-0">
                     <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-100 dark:border-blue-800 flex justify-between items-center">
                         <h3 className="text-sm font-medium text-blue-600 dark:text-blue-400 uppercase tracking-wider">Localized (German)</h3>
                         <div className="flex gap-2">

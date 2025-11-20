@@ -73,6 +73,17 @@ npm run dev
 | Variable | Description | Required |
 |----------|-------------|----------|
 | `N8N_WEBHOOK_URL` | Your n8n webhook endpoint URL | Yes |
+| `LOG_LOCALIZE_PAYLOADS` | Set to `true` to enable verbose logging of request/response payloads (debug only). Defaults to `false`. | No |
+
+## Logging Hygiene
+
+By default, this application redacts sensitive content (blog posts, instructions, etc.) from server-side logs to protect user privacy and intellectual property. 
+
+To enable full payload logging for debugging purposes:
+1. Set `LOG_LOCALIZE_PAYLOADS=true` in your `.env.local` file.
+2. Restart the development server.
+
+**⚠️ Warning:** Enabling verbose logging will expose full request and response bodies in your terminal/logs. Ensure this is disabled in production environments unless actively debugging.
 
 ## Development
 

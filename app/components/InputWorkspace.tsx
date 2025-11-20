@@ -27,10 +27,14 @@ export default function InputWorkspace({
           <div className="space-y-6">
             {/* Blog Content */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+              <label
+                htmlFor="original-markdown"
+                className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2"
+              >
                 Original Markdown
               </label>
               <textarea
+                id="original-markdown"
                 value={blogContent}
                 onChange={(e) => setBlogContent(e.target.value)}
                 placeholder="# Paste your English Markdown here..."
@@ -41,13 +45,17 @@ export default function InputWorkspace({
 
             {/* SEO Context */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+              <label
+                htmlFor="seo-context"
+                className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2"
+              >
                 SEO Context
               </label>
               <textarea
+                id="seo-context"
                 value={seoContext}
                 onChange={(e) => setSeoContext(e.target.value)}
-                placeholder="Keywords: xbox, gaming...&#10;Tone: Professional but friendly..."
+                placeholder={"Keywords: xbox, gaming...\nTone: Professional but friendly..."}
                 className="w-full h-32 resize-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 spellCheck={false}
               />
@@ -58,10 +66,14 @@ export default function InputWorkspace({
           <div className="space-y-6">
             {/* Additional Instructions */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">
+              <label
+                htmlFor="additional-instructions"
+                className="block text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2"
+              >
                 Additional Instructions
               </label>
               <textarea
+                id="additional-instructions"
                 value={additionalInstructions}
                 onChange={(e) => setAdditionalInstructions(e.target.value)}
                 placeholder="Any specific instructions for this localization run..."

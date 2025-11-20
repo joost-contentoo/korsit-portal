@@ -116,8 +116,9 @@ export default function Home() {
         handleNavigate('comparison-deck');
       }, 100);
 
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -141,10 +142,6 @@ export default function Home() {
             setSeoContext={setSeoContext}
             additionalInstructions={additionalInstructions}
             setAdditionalInstructions={setAdditionalInstructions}
-            glossary={glossary}
-            setGlossary={setGlossary}
-            styleGuide={styleGuide}
-            setStyleGuide={setStyleGuide}
           />
 
           {/* Floating Action Button for Localize */}

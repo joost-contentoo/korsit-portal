@@ -26,7 +26,21 @@ export async function POST(request: Request) {
     }
 
     // Forward to n8n with 120-second timeout
-    console.log('[Localize API] Sending request to n8n:', n8nUrl);
+    const shouldLogPayloads = process.env.LOG_LOCALIZE_PAYLOADS === 'true';
+
+    if (shouldLogPayloads) {
+      console.log('[Localize API] Sending request to n8n:', n8nUrl);
+      console.log('[Localize API] Request payload:', JSON.stringify({
+        blog_content: blog_content.substring(0, 50) + '...', // Log snippet even in verbose mode for sanity
+        seo_context,
+        additional_instructions,
+        style_guide,
+        glossary
+      }));
+    } else {
+      console.log('[Localize API] Sending request to n8n (payload redacted)');
+    }
+
     const n8nResponse = await fetch(n8nUrl, {
       method: 'POST',
       headers: {
@@ -43,11 +57,24 @@ export async function POST(request: Request) {
     });
 
     console.log('[Localize API] n8n response status:', n8nResponse.status);
-    console.log('[Localize API] n8n response headers:', Object.fromEntries(n8nResponse.headers.entries()));
+
+    if (shouldLogPayloads) {
+      console.log('[Localize API] n8n response headers:', Object.fromEntries(n8nResponse.headers.entries()));
+    }
 
     if (!n8nResponse.ok) {
       const errorText = await n8nResponse.text();
-      console.error('[Localize API] n8n error:', n8nResponse.status, errorText);
+      // Sanitize error text if not in verbose mode, though usually error text is safe enough, 
+      // but to be strict we might want to be careful. 
+      // However, n8n errors often contain useful debugging info. 
+      // Let's log it but be mindful.
+      console.error('[Localize API] n8n error status:', n8nResponse.status);
+      if (shouldLogPayloads) {
+        console.error('[Localize API] n8n error text:', errorText);
+      } else {
+        console.error('[Localize API] n8n error text redacted. Set LOG_LOCALIZE_PAYLOADS=true to view.');
+      }
+
       return NextResponse.json(
         { error: `Upstream error: ${n8nResponse.statusText}` },
         { status: n8nResponse.status }
@@ -55,15 +82,24 @@ export async function POST(request: Request) {
     }
 
     const responseText = await n8nResponse.text();
-    console.log('[Localize API] n8n raw response:', responseText);
+
+    if (shouldLogPayloads) {
+      console.log('[Localize API] n8n raw response:', responseText);
+    } else {
+      console.log('[Localize API] n8n response received (body redacted)');
+    }
 
     let data;
     try {
       data = JSON.parse(responseText);
-      console.log('[Localize API] Parsed n8n response:', data);
-    } catch (parseError) {
-      console.error('[Localize API] Failed to parse n8n response as JSON:', parseError);
-      console.error('[Localize API] Raw response was:', responseText);
+      if (shouldLogPayloads) {
+        console.log('[Localize API] Parsed n8n response:', data);
+      }
+    } catch {
+      console.error('[Localize API] Failed to parse n8n response as JSON');
+      if (shouldLogPayloads) {
+        console.error('[Localize API] Raw response was:', responseText);
+      }
       throw new Error('n8n returned invalid JSON');
     }
 

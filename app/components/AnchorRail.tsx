@@ -28,11 +28,13 @@ export default function AnchorRail({ activeSection, onNavigate }: AnchorRailProp
                             onClick={() => onNavigate(item.id)}
                             className={`
                 group relative flex items-center justify-center w-full aspect-square rounded-md transition-all
+                focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none
                 ${isActive
                                     ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
                                     : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-600 dark:hover:text-gray-300'}
               `}
                             title={item.label}
+                            aria-label={item.label}
                         >
                             <item.icon className="w-5 h-5" />
                             {isActive && (
@@ -40,7 +42,7 @@ export default function AnchorRail({ activeSection, onNavigate }: AnchorRailProp
                             )}
 
                             {/* Tooltip */}
-                            <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                            <span className="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
                                 {item.label}
                             </span>
                         </button>
@@ -49,7 +51,10 @@ export default function AnchorRail({ activeSection, onNavigate }: AnchorRailProp
             </div>
 
             <div className="mt-auto">
-                <button className="p-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                <button
+                    className="p-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none rounded-md"
+                    aria-label="Settings"
+                >
                     <Settings className="w-5 h-5" />
                 </button>
             </div>
