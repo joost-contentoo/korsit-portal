@@ -98,8 +98,8 @@ export default function Home() {
           blog_content: blogContent,
           seo_context: seoContext,
           additional_instructions: additionalInstructions,
-          // Future: style_guide: styleGuide,
-          // Future: glossary: glossary,
+          style_guide: styleGuide,
+          glossary: glossary,
         }),
       });
 
@@ -141,6 +141,10 @@ export default function Home() {
             setSeoContext={setSeoContext}
             additionalInstructions={additionalInstructions}
             setAdditionalInstructions={setAdditionalInstructions}
+            glossary={glossary}
+            setGlossary={setGlossary}
+            styleGuide={styleGuide}
+            setStyleGuide={setStyleGuide}
           />
 
           {/* Floating Action Button for Localize */}

@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { blog_content, seo_context } = body;
+    const { blog_content, seo_context, additional_instructions, style_guide, glossary } = body;
 
     if (!blog_content) {
       return NextResponse.json(
@@ -35,6 +35,9 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         blog_content,
         seo_context: seo_context || '',
+        additional_instructions: additional_instructions || '',
+        style_guide: style_guide || '',
+        glossary: glossary || '',
       }),
       signal: AbortSignal.timeout(120000), // 120 seconds timeout
     });

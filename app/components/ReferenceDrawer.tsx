@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Eye, EyeOff } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, ChevronUp, Eye, EyeOff, Save, Loader2, Check } from 'lucide-react';
 import MarkdownPreview from './MarkdownPreview';
 
 interface ReferenceDrawerProps {
@@ -18,6 +18,45 @@ export default function ReferenceDrawer({
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [showStyleGuidePreview, setShowStyleGuidePreview] = useState(false);
     const [showGlossaryPreview, setShowGlossaryPreview] = useState(false);
+    const [isSavingStyleGuide, setIsSavingStyleGuide] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
+
+    // Load Style Guide on mount
+    useEffect(() => {
+        const fetchStyleGuide = async () => {
+            try {
+                const response = await fetch('/api/style-guide');
+                if (response.ok) {
+                    const data = await response.json();
+                    setStyleGuide(data.content);
+                }
+            } catch (error) {
+                console.error('Failed to load style guide:', error);
+            }
+        };
+        fetchStyleGuide();
+    }, [setStyleGuide]);
+
+    const handleSaveStyleGuide = async () => {
+        setIsSavingStyleGuide(true);
+        setSaveSuccess(false);
+        try {
+            const response = await fetch('/api/style-guide', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: styleGuide }),
+            });
+
+            if (response.ok) {
+                setSaveSuccess(true);
+                setTimeout(() => setSaveSuccess(false), 2000);
+            }
+        } catch (error) {
+            console.error('Failed to save style guide:', error);
+        } finally {
+            setIsSavingStyleGuide(false);
+        }
+    };
 
     return (
         <div id="reference-drawer" className={`flex flex-col bg-gray-100 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-all duration-300 ${isCollapsed ? 'h-16' : 'h-96'}`}>
@@ -40,13 +79,30 @@ export default function ReferenceDrawer({
                             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
                                 Style Guide
                             </label>
-                            <button
-                                onClick={() => setShowStyleGuidePreview(!showStyleGuidePreview)}
-                                className="text-gray-500 hover:text-blue-600 transition-colors"
-                                title={showStyleGuidePreview ? "Edit" : "Preview"}
-                            >
-                                {showStyleGuidePreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                            </button>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={handleSaveStyleGuide}
+                                    disabled={isSavingStyleGuide}
+                                    className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700 disabled:opacity-50 transition-colors"
+                                    title="Save changes to local style-guide.md"
+                                >
+                                    {isSavingStyleGuide ? (
+                                        <Loader2 className="w-3 h-3 animate-spin" />
+                                    ) : saveSuccess ? (
+                                        <Check className="w-3 h-3" />
+                                    ) : (
+                                        <Save className="w-3 h-3" />
+                                    )}
+                                    {saveSuccess ? 'Saved!' : 'Save to File'}
+                                </button>
+                                <button
+                                    onClick={() => setShowStyleGuidePreview(!showStyleGuidePreview)}
+                                    className="text-gray-500 hover:text-blue-600 transition-colors"
+                                    title={showStyleGuidePreview ? "Edit" : "Preview"}
+                                >
+                                    {showStyleGuidePreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                </button>
+                            </div>
                         </div>
 
                         {showStyleGuidePreview ? (
