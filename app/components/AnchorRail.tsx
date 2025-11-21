@@ -19,7 +19,7 @@ export default function AnchorRail() {
     ];
 
     return (
-        <div className="w-16 flex flex-col items-center py-6 bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 z-20 h-screen sticky top-0">
+        <div className="w-16 flex flex-col items-center py-6 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-r border-gray-200 dark:border-gray-800 z-20 h-screen sticky top-0">
             <div className="mb-8">
                 <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">L</div>
             </div>

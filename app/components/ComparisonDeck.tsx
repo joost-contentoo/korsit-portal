@@ -68,11 +68,13 @@ export default function ComparisonDeck() {
     };
 
     return (
-        <div id="comparison-deck" className="flex flex-col h-screen bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
-            <div className="flex-1 flex flex-col p-6 border-b border-gray-200 dark:border-gray-800 overflow-hidden">
-                <h2 className="text-lg font-semibold mb-4 shrink-0">Comparison Deck</h2>
+        <div id="comparison-deck" className="flex flex-col h-screen bg-transparent border-t border-gray-200/50 dark:border-gray-800/50">
+            <div className="flex-1 flex flex-col border-b border-gray-200/50 dark:border-gray-800/50 overflow-hidden relative">
+                <div className="sticky top-0 z-20 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl px-6 py-4 border-b border-gray-200/50 dark:border-gray-800/50 shrink-0 shadow-sm">
+                    <h2 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-gray-100">Comparison Deck</h2>
+                </div>
 
-                <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0">
+                <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 p-6">
                     {/* Source Pane */}
                     <div className="w-full lg:w-1/2 flex flex-col h-full">
                         <div className="flex justify-between items-center mb-2">
@@ -90,7 +92,7 @@ export default function ComparisonDeck() {
                         <div
                             ref={sourceRef}
                             onScroll={() => handleScroll('source')}
-                            className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md"
+                            className="flex-1 overflow-y-auto p-5 custom-scrollbar bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200"
                         >
                             {blogContent ? (
                                 <MarkdownPreview content={blogContent} />
@@ -127,7 +129,7 @@ export default function ComparisonDeck() {
                         <div
                             ref={localizedRef}
                             onScroll={() => handleScroll('localized')}
-                            className="flex-1 overflow-y-auto p-4 custom-scrollbar bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md relative"
+                            className="flex-1 overflow-y-auto p-5 custom-scrollbar bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm relative hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200"
                         >
                             {isLoading ? (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-gray-950/80 z-10 backdrop-blur-sm rounded-md">
@@ -151,7 +153,7 @@ export default function ComparisonDeck() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

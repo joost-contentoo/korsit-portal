@@ -99,14 +99,16 @@ export default function ReferenceDrawer() {
     );
 
     return (
-        <div id="reference-drawer" className="flex flex-col h-screen bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
-            <div className="flex-1 flex flex-col p-6 border-b border-gray-200 dark:border-gray-800 overflow-hidden">
-                <h2 className="text-lg font-semibold mb-4 shrink-0 flex items-center gap-2">
-                    Reference Drawer
-                    <span className="text-xs font-normal text-gray-500 uppercase tracking-wider ml-2">(Style Guide & Glossary)</span>
-                </h2>
+        <div id="reference-drawer" className="flex flex-col h-screen bg-transparent border-t border-gray-200/50 dark:border-gray-800/50">
+            <div className="flex-1 flex flex-col border-b border-gray-200/50 dark:border-gray-800/50 overflow-hidden relative">
+                <div className="sticky top-0 z-20 bg-white/95 dark:bg-gray-950/95 backdrop-blur-xl px-6 py-4 border-b border-gray-200/50 dark:border-gray-800/50 shrink-0 shadow-sm">
+                    <h2 className="text-lg font-semibold flex items-center gap-2 tracking-tight text-gray-900 dark:text-gray-100">
+                        Reference Drawer
+                        <span className="text-xs font-normal text-gray-500 uppercase tracking-wider ml-2">(Style Guide & Glossary)</span>
+                    </h2>
+                </div>
 
-                <div className="flex-1 flex gap-6 min-h-0">
+                <div className="flex-1 flex gap-6 min-h-0 p-6">
                     {/* Style Guide */}
                     <div className="flex-1 flex flex-col h-full">
                         <div className="flex justify-between items-center mb-2">
@@ -132,7 +134,7 @@ export default function ReferenceDrawer() {
                         </div>
 
                         {showStyleGuidePreview ? (
-                            <div className="flex-1 w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
+                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 custom-scrollbar shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200">
                                 <MarkdownPreview content={styleGuide || '*No style guide defined.*'} />
                             </div>
                         ) : (
@@ -140,7 +142,7 @@ export default function ReferenceDrawer() {
                                 value={styleGuide}
                                 onChange={(e) => setStyleGuide(e.target.value)}
                                 placeholder="# Markdown Style Guide..."
-                                className="flex-1 w-full resize-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
                                 spellCheck={false}
                             />
                         )}
@@ -171,7 +173,7 @@ export default function ReferenceDrawer() {
                         </div>
 
                         {showGlossaryPreview ? (
-                            <div className="flex-1 w-full overflow-y-auto bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 custom-scrollbar">
+                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 custom-scrollbar shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200">
                                 <MarkdownPreview content={glossary || '*No glossary terms defined.*'} />
                             </div>
                         ) : (
@@ -179,7 +181,7 @@ export default function ReferenceDrawer() {
                                 value={glossary}
                                 onChange={(e) => setGlossary(e.target.value)}
                                 placeholder="Term: Definition..."
-                                className="flex-1 w-full resize-none bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-md p-4 font-mono text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
                                 spellCheck={false}
                             />
                         )}
