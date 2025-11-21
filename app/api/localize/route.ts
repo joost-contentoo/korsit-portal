@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { localizeRequestSchema } from '../../lib/schemas';
 import { env } from '../../config/env';
+import { parseN8nResponse } from '../../lib/n8n';
 
 // Extend API route timeout to 3 minutes for long-running n8n workflows
 export const maxDuration = 180; // 180 seconds = 3 minutes
@@ -102,7 +103,7 @@ export async function POST(request: Request) {
     }
 
     // Resiliency: Check for various output formats
-    const localizedContent = data.localized_content || data.output || data.text || data.content;
+    const localizedContent = parseN8nResponse(data);
 
     if (!localizedContent && typeof data === 'string') {
       // In case n8n returns raw string

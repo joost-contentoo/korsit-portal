@@ -17,6 +17,9 @@ A local productivity interface for localizing English Markdown blog posts into G
 - Tailwind CSS with Typography plugin
 - React Markdown
 - Lucide React (icons)
+- **State Management:** Zustand
+- **Validation:** Zod
+- **Testing:** Jest (Unit), Playwright (E2E)
 
 ## Getting Started
 
@@ -54,18 +57,43 @@ npm run dev
 ## Project Structure
 
 ```
+├── __tests__/            # Unit tests (Jest)
 ├── app/
 │   ├── api/
 │   │   └── localize/
-│   │       └── route.ts          # Backend proxy for n8n
-│   ├── components/
-│   │   └── MarkdownPreview.tsx   # Markdown rendering component
-│   ├── globals.css               # Global styles with Tailwind
-│   ├── layout.tsx                # Root layout
-│   └── page.tsx                  # Main application page
-├── docs/
-│   └── PRD.md                    # Product Requirements Document
-└── .env.local.example            # Environment variable template
+│   │       └── route.ts  # Backend proxy for n8n
+│   ├── components/       # React components
+│   ├── config/           # Configuration (constants, env)
+│   ├── lib/              # Utilities and schemas
+│   ├── store/            # Zustand stores
+│   ├── globals.css       # Global styles
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Main application page
+├── docs/                 # Documentation
+├── e2e/                  # End-to-End tests (Playwright)
+└── .env.local.example    # Environment variable template
+```
+
+## Testing
+
+The application includes a comprehensive testing suite.
+
+### Unit Tests (Jest)
+Run unit tests for components and utility logic:
+```bash
+npm run test:unit
+```
+
+### End-to-End Tests (Playwright)
+Run E2E tests to verify the full user flow:
+```bash
+npm run test:e2e
+```
+
+### Run All Tests
+Execute both test suites:
+```bash
+npm run test
 ```
 
 ## Environment Variables
