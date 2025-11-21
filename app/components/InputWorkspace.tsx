@@ -96,7 +96,7 @@ export default function InputWorkspace() {
               value={blogContent}
               onChange={(e) => setBlogContent(e.target.value)}
               placeholder="# Paste your English Markdown here..."
-              className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
+              className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-primary/50 dark:hover:border-primary/50 focus:shadow-[0_0_20px_rgba(0,166,157,0.1)] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 ease-in-out"
               spellCheck={false}
             />
           </div>
@@ -116,7 +116,7 @@ export default function InputWorkspace() {
                 value={seoContext}
                 onChange={(e) => setSeoContext(e.target.value)}
                 placeholder={"Keywords: xbox, gaming...\nTone: Professional but friendly..."}
-                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
+                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-primary/50 dark:hover:border-primary/50 focus:shadow-[0_0_20px_rgba(0,166,157,0.1)] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 ease-in-out"
                 spellCheck={false}
               />
             </div>
@@ -135,7 +135,7 @@ export default function InputWorkspace() {
                   value={additionalInstructions}
                   onChange={(e) => setAdditionalInstructions(e.target.value)}
                   placeholder="Any specific instructions for this localization run..."
-                  className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
+                  className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-primary/50 dark:hover:border-primary/50 focus:shadow-[0_0_20px_rgba(0,166,157,0.1)] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 ease-in-out"
                   spellCheck={false}
                 />
               </div>
@@ -147,7 +147,7 @@ export default function InputWorkspace() {
                   flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-medium text-lg shadow-lg transition-all shrink-0
                   ${isLoading || !blogContent.trim()
                     ? 'bg-gray-200 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-xl active:transform active:scale-[0.98]'}
+                    : 'bg-primary hover:bg-[#008c84] text-white hover:shadow-xl active:transform active:scale-[0.98]'}
                 `}
               >
                 {isLoading ? (

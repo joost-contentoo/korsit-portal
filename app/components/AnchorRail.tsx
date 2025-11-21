@@ -51,8 +51,9 @@ export default function AnchorRail() {
         <div className="w-20 flex flex-col items-center py-8 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-r border-gray-200 dark:border-gray-800 z-50 h-screen sticky top-0 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
             {/* Logo */}
             <div className="mb-10 relative group cursor-default">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-blue-600/20 transition-transform duration-300 group-hover:scale-105">
-                    L
+                <div className="w-12 h-12 bg-primary rounded-md flex flex-col items-center justify-center text-white shadow-lg shadow-primary/20 transition-transform duration-300 group-hover:scale-105 relative">
+                    <span className="absolute top-0.5 left-1 text-[10px] font-medium opacity-90">1</span>
+                    <span className="font-bold text-xl mt-1 tracking-tight">Lo</span>
                 </div>
             </div>
 
@@ -71,7 +72,7 @@ export default function AnchorRail() {
                 {/* We want this to fill based on scroll. */}
                 {/* If we are at Input (top), it's empty or small. If we are at Compare, it's full. */}
                 <div
-                    className="absolute left-1/2 -translate-x-1/2 top-5 w-0.5 bg-blue-500 rounded-full transition-all duration-150 ease-out"
+                    className="absolute left-1/2 -translate-x-1/2 top-5 w-0.5 bg-primary rounded-full transition-all duration-150 ease-out"
                     style={{
                         height: `calc(${Math.min(scrollProgress * 2, 1) * 100}% - 2.5rem)`, // Accelerate fill so it completes by the time we reach Compare
                         maxHeight: 'calc(100% - 2.5rem)'
@@ -90,14 +91,14 @@ export default function AnchorRail() {
                             >
                                 {/* Active State Pulse/Glow */}
                                 {isActive && (
-                                    <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-md animate-pulse" />
+                                    <div className="absolute inset-0 bg-primary/20 rounded-xl blur-md animate-pulse" />
                                 )}
 
                                 {/* Icon Container */}
                                 <div className={`
                                     relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 border
                                     ${isActive
-                                        ? 'bg-white dark:bg-gray-900 border-blue-500 text-blue-600 shadow-lg shadow-blue-500/20 scale-110'
+                                        ? 'bg-white dark:bg-gray-900 border-primary text-primary shadow-lg shadow-primary/20 scale-110'
                                         : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700'}
                                 `}>
                                     <item.icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? '' : 'group-hover:scale-110'}`} />
@@ -136,13 +137,13 @@ export default function AnchorRail() {
                 >
                     {/* Active State Pulse/Glow */}
                     {activeSection === referenceItem.id && (
-                        <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-md animate-pulse" />
+                        <div className="absolute inset-0 bg-primary/20 rounded-xl blur-md animate-pulse" />
                     )}
 
                     <div className={`
                         relative w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 border
                         ${activeSection === referenceItem.id
-                            ? 'bg-white dark:bg-gray-900 border-blue-500 text-blue-600 shadow-lg shadow-blue-500/20 scale-110'
+                            ? 'bg-white dark:bg-gray-900 border-primary text-primary shadow-lg shadow-primary/20 scale-110'
                             : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700'}
                     `}>
                         <referenceItem.icon className={`w-5 h-5 transition-transform duration-300 ${activeSection === referenceItem.id ? '' : 'group-hover:scale-110'}`} />

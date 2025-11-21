@@ -3,14 +3,17 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1D2939;
+  /* Contentoo Dark Navy */
+  --primary: #00543eff;
+  /* Contentoo Green Corrected */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-inter);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,33 +24,20 @@
 }
 
 body {
-  background:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
-  background-color: #000;
-  /* Fallback/Base */
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
 
 @media (prefers-color-scheme: light) {
   body {
-    background:
-      radial-gradient(at 0% 0%, hsla(210, 100%, 96%, 1) 0, transparent 50%),
-      radial-gradient(at 50% 0%, hsla(210, 100%, 98%, 1) 0, transparent 50%),
-      radial-gradient(at 100% 0%, hsla(200, 100%, 96%, 1) 0, transparent 50%);
     background-color: #fff;
   }
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    background:
-      radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-      radial-gradient(at 50% 0%, hsla(225, 39%, 15%, 1) 0, transparent 50%),
-      radial-gradient(at 100% 0%, hsla(339, 49%, 15%, 1) 0, transparent 50%);
     background-color: #0a0a0a;
   }
 }

@@ -92,7 +92,7 @@ export default function ComparisonDeck() {
                         <div
                             ref={sourceRef}
                             onScroll={() => handleScroll('source')}
-                            className="flex-1 overflow-y-auto p-5 custom-scrollbar bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200"
+                            className="flex-1 overflow-y-auto p-5 custom-scrollbar bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm hover:border-primary/50 dark:hover:border-primary/50 transition-colors duration-200"
                         >
                             {blogContent ? (
                                 <MarkdownPreview content={blogContent} />
@@ -129,11 +129,11 @@ export default function ComparisonDeck() {
                         <div
                             ref={localizedRef}
                             onScroll={() => handleScroll('localized')}
-                            className="flex-1 overflow-y-auto p-5 custom-scrollbar bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm relative hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200"
+                            className="flex-1 overflow-y-auto p-5 custom-scrollbar bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm relative hover:border-primary/50 dark:hover:border-primary/50 transition-colors duration-200"
                         >
                             {isLoading ? (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-gray-950/80 z-10 backdrop-blur-sm rounded-md">
-                                    <Loader2 className="w-8 h-8 animate-spin text-blue-600 mb-4" />
+                                    <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
                                     <p className="text-lg font-medium text-gray-700 dark:text-gray-300 animate-pulse">{wittyMessage}</p>
                                 </div>
                             ) : error ? (

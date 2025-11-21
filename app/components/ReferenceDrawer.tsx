@@ -84,7 +84,7 @@ export default function ReferenceDrawer() {
         <button
             onClick={onClick}
             disabled={isSaving}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-primary hover:bg-[#008c84] text-white text-xs font-medium rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             title={`Save ${label} to file`}
         >
             {isSaving ? (
@@ -124,7 +124,7 @@ export default function ReferenceDrawer() {
                                 />
                                 <button
                                     onClick={() => setShowStyleGuidePreview(!showStyleGuidePreview)}
-                                    className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
+                                    className="p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 dark:hover:bg-primary/20 rounded-md transition-colors"
                                     title={showStyleGuidePreview ? "Edit" : "Preview"}
                                     aria-label={showStyleGuidePreview ? "Edit style guide" : "Preview style guide"}
                                 >
@@ -134,7 +134,7 @@ export default function ReferenceDrawer() {
                         </div>
 
                         {showStyleGuidePreview ? (
-                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 custom-scrollbar shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200">
+                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 custom-scrollbar shadow-sm hover:border-primary/50 dark:hover:border-primary/50 transition-colors duration-200">
                                 <MarkdownPreview content={styleGuide || '*No style guide defined.*'} />
                             </div>
                         ) : (
@@ -142,7 +142,7 @@ export default function ReferenceDrawer() {
                                 value={styleGuide}
                                 onChange={(e) => setStyleGuide(e.target.value)}
                                 placeholder="# Markdown Style Guide..."
-                                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
+                                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-primary/50 dark:hover:border-primary/50 focus:shadow-[0_0_20px_rgba(0,166,157,0.1)] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 ease-in-out"
                                 spellCheck={false}
                             />
                         )}
@@ -163,7 +163,7 @@ export default function ReferenceDrawer() {
                                 />
                                 <button
                                     onClick={() => setShowGlossaryPreview(!showGlossaryPreview)}
-                                    className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-md transition-colors"
+                                    className="p-1.5 text-gray-500 hover:text-primary hover:bg-primary/10 dark:hover:bg-primary/20 rounded-md transition-colors"
                                     title={showGlossaryPreview ? "Edit" : "Preview"}
                                     aria-label={showGlossaryPreview ? "Edit glossary" : "Preview glossary"}
                                 >
@@ -173,7 +173,7 @@ export default function ReferenceDrawer() {
                         </div>
 
                         {showGlossaryPreview ? (
-                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 custom-scrollbar shadow-sm hover:border-blue-300 dark:hover:border-blue-700 transition-colors duration-200">
+                            <div className="flex-1 w-full overflow-y-auto bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 custom-scrollbar shadow-sm hover:border-primary/50 dark:hover:border-primary/50 transition-colors duration-200">
                                 <MarkdownPreview content={glossary || '*No glossary terms defined.*'} />
                             </div>
                         ) : (
@@ -181,7 +181,7 @@ export default function ReferenceDrawer() {
                                 value={glossary}
                                 onChange={(e) => setGlossary(e.target.value)}
                                 placeholder="Term: Definition..."
-                                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-blue-300 dark:hover:border-blue-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.1)] focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all duration-200 ease-in-out"
+                                className="flex-1 w-full resize-none bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-xl p-5 font-mono text-sm shadow-sm hover:border-primary/50 dark:hover:border-primary/50 focus:shadow-[0_0_20px_rgba(0,166,157,0.1)] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200 ease-in-out"
                                 spellCheck={false}
                             />
                         )}
