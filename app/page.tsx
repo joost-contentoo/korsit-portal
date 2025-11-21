@@ -54,7 +54,7 @@ export default function Home() {
       <AnchorRail />
 
       {/* Main Scrollable Content */}
-      <div ref={mainContainerRef} className="flex-1 flex flex-col overflow-y-auto scroll-smooth snap-y snap-mandatory">
+      <div ref={mainContainerRef} id="main-scroll-container" className="flex-1 flex flex-col overflow-y-auto scroll-smooth snap-y snap-mandatory">
 
         {/* InputWorkspace */}
         <div className="snap-start min-h-screen relative">
