@@ -1,29 +1,27 @@
 import { NextResponse } from 'next/server';
+import { localizeRequestSchema } from '../../lib/schemas';
+import { env } from '../../config/env';
 
 // Extend API route timeout to 3 minutes for long-running n8n workflows
 export const maxDuration = 180; // 180 seconds = 3 minutes
 
 export async function POST(request: Request) {
-  const n8nUrl = process.env.N8N_WEBHOOK_URL;
-
-  if (!n8nUrl) {
-    console.error('N8N_WEBHOOK_URL is missing in environment variables.');
-    return NextResponse.json(
-      { error: 'Server configuration error: N8N_WEBHOOK_URL is missing.' },
-      { status: 500 }
-    );
-  }
+  const n8nUrl = env.N8N_WEBHOOK_URL;
 
   try {
     const body = await request.json();
-    const { blog_content, seo_context, additional_instructions, style_guide, glossary } = body;
 
-    if (!blog_content) {
+    // Validate request body with Zod
+    const validationResult = localizeRequestSchema.safeParse(body);
+
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: 'Missing required field: blog_content' },
+        { error: 'Validation error', details: validationResult.error.format() },
         { status: 400 }
       );
     }
+
+    const { blog_content, seo_context, additional_instructions, style_guide, glossary } = validationResult.data;
 
     // Forward to n8n with 120-second timeout
     const shouldLogPayloads = process.env.LOG_LOCALIZE_PAYLOADS === 'true';
@@ -128,3 +126,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

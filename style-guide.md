@@ -71,4 +71,4 @@ Ensure these elements are present in the copy:
 #### **Meta Description**
 * **Length:** 140–160 characters
 * **Pattern:** `[Product] [kaufen/bestellen] [beim offiziellen Vertriebspartner / online] ✓[Benefit 1] ✓[Benefit 2] – Bezahle mit PayPal, [payment method] und mehr`
-* **Mandatory:** Must include checkmarks (✓), payment methods (especially PayPal), and strong action verbs.
+* **Mandatory:** Must include checkmarks (✓), payment methods (especially PayPal), and strong action verbs.# Style Guide

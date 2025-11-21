@@ -1,22 +1,15 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import MarkdownPreview from './MarkdownPreview';
 import { AlertCircle, Loader2, Copy, Download, Check } from 'lucide-react';
+import { useContentStore } from '../store/useContentStore';
+import { useUIStore } from '../store/useUIStore';
+import { WITTY_MESSAGES } from '../config/constants';
 
-interface ComparisonDeckProps {
-    blogContent: string;
-    localizedContent: string;
-    isLoading: boolean;
-    error: string | null;
-    wittyMessage: string;
-}
+export default function ComparisonDeck() {
+    const { blogContent, localizedContent } = useContentStore();
+    const { isLoading, error, wittyMessageIndex } = useUIStore();
+    const wittyMessage = WITTY_MESSAGES[wittyMessageIndex];
 
-export default function ComparisonDeck({
-    blogContent,
-    localizedContent,
-    isLoading,
-    error,
-    wittyMessage,
-}: ComparisonDeckProps) {
     const sourceRef = useRef<HTMLDivElement>(null);
     const localizedRef = useRef<HTMLDivElement>(null);
     const isScrolling = useRef(false);

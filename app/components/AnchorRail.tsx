@@ -1,12 +1,17 @@
 import React from 'react';
 import { PenTool, Columns, Book, Settings } from 'lucide-react';
+import { useUIStore } from '../store/useUIStore';
 
-interface AnchorRailProps {
-    activeSection: string;
-    onNavigate: (sectionId: string) => void;
-}
+export default function AnchorRail() {
+    const { activeSection } = useUIStore();
 
-export default function AnchorRail({ activeSection, onNavigate }: AnchorRailProps) {
+    const handleNavigate = (sectionId: string) => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     const navItems = [
         { id: 'input-workspace', icon: PenTool, label: 'Input' },
         { id: 'comparison-deck', icon: Columns, label: 'Compare' },
@@ -25,7 +30,7 @@ export default function AnchorRail({ activeSection, onNavigate }: AnchorRailProp
                     return (
                         <button
                             key={item.id}
-                            onClick={() => onNavigate(item.id)}
+                            onClick={() => handleNavigate(item.id)}
                             className={`
                 group relative flex items-center justify-center w-full aspect-square rounded-md transition-all
                 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none
@@ -61,3 +66,4 @@ export default function AnchorRail({ activeSection, onNavigate }: AnchorRailProp
         </div>
     );
 }
+

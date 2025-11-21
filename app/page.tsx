@@ -1,38 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
 import InputWorkspace from './components/InputWorkspace';
 import ComparisonDeck from './components/ComparisonDeck';
 import ReferenceDrawer from './components/ReferenceDrawer';
 import AnchorRail from './components/AnchorRail';
-
-const WITTY_MESSAGES = [
-  "Teaching AI grammar...",
-  "Optimizing keywords...",
-  "Drinking virtual coffee...",
-  "Consulting the dictionary...",
-  "Polishing the umlauts...",
-  "Asking a German native...",
-  "Translating idioms...",
-  "Checking tone of voice...",
-];
+import { useUIStore } from './store/useUIStore';
 
 export default function Home() {
-  // State
-  const [blogContent, setBlogContent] = useState('');
-  const [seoContext, setSeoContext] = useState('');
-  const [additionalInstructions, setAdditionalInstructions] = useState('');
-  const [localizedContent, setLocalizedContent] = useState('');
-  const [styleGuide, setStyleGuide] = useState('');
-  const [glossary, setGlossary] = useState('');
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
-  const [activeSection, setActiveSection] = useState('input-workspace');
-
-  // Refs for scrolling
+  const { isLoading, setActiveSection, rotateWittyMessage } = useUIStore();
   const mainContainerRef = useRef<HTMLDivElement>(null);
 
   // Witty Message Rotator
@@ -40,11 +16,11 @@ export default function Home() {
     let interval: NodeJS.Timeout;
     if (isLoading) {
       interval = setInterval(() => {
-        setLoadingMessageIndex((prev) => (prev + 1) % WITTY_MESSAGES.length);
+        rotateWittyMessage();
       }, 2500);
     }
     return () => clearInterval(interval);
-  }, [isLoading]);
+  }, [isLoading, rotateWittyMessage]);
 
   // Intersection Observer for Active Section
   useEffect(() => {
@@ -69,107 +45,34 @@ export default function Home() {
     sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
-  }, []);
-
-  const handleNavigate = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const handleLocalize = async () => {
-    if (!blogContent.trim()) {
-      setError('Please enter some blog content to localize.');
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-    setLocalizedContent('');
-
-    try {
-      const response = await fetch('/api/localize', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          blog_content: blogContent,
-          seo_context: seoContext,
-          additional_instructions: additionalInstructions,
-          style_guide: styleGuide,
-          glossary: glossary,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to localize content.');
-      }
-
-      setLocalizedContent(data.localized_content);
-
-      // Auto-scroll to Comparison Deck on success
-      setTimeout(() => {
-        handleNavigate('comparison-deck');
-      }, 100);
-
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [setActiveSection]);
 
   return (
     <main className="flex h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 overflow-hidden font-sans">
 
       {/* Anchor Rail */}
-      <AnchorRail activeSection={activeSection} onNavigate={handleNavigate} />
+      <AnchorRail />
 
       {/* Main Scrollable Content */}
       <div ref={mainContainerRef} className="flex-1 flex flex-col overflow-y-auto scroll-smooth snap-y snap-mandatory">
 
         {/* InputWorkspace */}
         <div className="snap-start min-h-screen relative">
-          <InputWorkspace
-            blogContent={blogContent}
-            setBlogContent={setBlogContent}
-            seoContext={seoContext}
-            setSeoContext={setSeoContext}
-            additionalInstructions={additionalInstructions}
-            setAdditionalInstructions={setAdditionalInstructions}
-            handleLocalize={handleLocalize}
-            isLoading={isLoading}
-            wittyMessage={WITTY_MESSAGES[loadingMessageIndex]}
-          />
+          <InputWorkspace />
         </div>
 
         {/* Comparison Deck */}
         <div className="snap-start min-h-screen">
-          <ComparisonDeck
-            blogContent={blogContent}
-            localizedContent={localizedContent}
-            isLoading={isLoading}
-            error={error}
-            wittyMessage={WITTY_MESSAGES[loadingMessageIndex]}
-          />
+          <ComparisonDeck />
         </div>
 
         {/* Reference Drawer */}
         <div className="snap-start min-h-screen">
-          <ReferenceDrawer
-            styleGuide={styleGuide}
-            setStyleGuide={setStyleGuide}
-            glossary={glossary}
-            setGlossary={setGlossary}
-          />
+          <ReferenceDrawer />
         </div>
 
       </div>
     </main>
   );
 }
+

@@ -1,29 +1,80 @@
 import React from 'react';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import { useContentStore } from '../store/useContentStore';
+import { useUIStore } from '../store/useUIStore';
+import { WITTY_MESSAGES } from '../config/constants';
 
-interface InputWorkspaceProps {
-  blogContent: string;
-  setBlogContent: (value: string) => void;
-  seoContext: string;
-  setSeoContext: (value: string) => void;
-  additionalInstructions: string;
-  setAdditionalInstructions: (value: string) => void;
-  handleLocalize: () => void;
-  isLoading: boolean;
-  wittyMessage: string;
-}
+export default function InputWorkspace() {
+  const {
+    blogContent,
+    setBlogContent,
+    seoContext,
+    setSeoContext,
+    additionalInstructions,
+    setAdditionalInstructions,
+    styleGuide,
+    glossary,
+    setLocalizedContent,
+  } = useContentStore();
 
-export default function InputWorkspace({
-  blogContent,
-  setBlogContent,
-  seoContext,
-  setSeoContext,
-  additionalInstructions,
-  setAdditionalInstructions,
-  handleLocalize,
-  isLoading,
-  wittyMessage,
-}: InputWorkspaceProps) {
+  const {
+    isLoading,
+    setIsLoading,
+    setError,
+    wittyMessageIndex,
+  } = useUIStore();
+
+  const wittyMessage = WITTY_MESSAGES[wittyMessageIndex];
+
+  const handleLocalize = async () => {
+    if (!blogContent.trim()) {
+      setError('Please enter some blog content to localize.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+    setLocalizedContent('');
+
+    try {
+      const response = await fetch('/api/localize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          blog_content: blogContent,
+          seo_context: seoContext,
+          additional_instructions: additionalInstructions,
+          style_guide: styleGuide,
+          glossary: glossary,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to localize content.');
+      }
+
+      setLocalizedContent(data.localized_content);
+
+      // Auto-scroll to Comparison Deck on success
+      setTimeout(() => {
+        const section = document.getElementById('comparison-deck');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div id="input-workspace" className="flex flex-col h-screen bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800">
       <div className="flex-1 flex flex-col p-6 border-b border-gray-200 dark:border-gray-800 overflow-hidden">
@@ -116,3 +167,4 @@ export default function InputWorkspace({
     </div>
   );
 }
+

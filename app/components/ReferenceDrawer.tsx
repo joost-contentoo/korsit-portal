@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ChevronUp, Eye, EyeOff, Save, Loader2, Check } from 'lucide-react';
+import { Eye, EyeOff, Save, Loader2, Check } from 'lucide-react';
 import MarkdownPreview from './MarkdownPreview';
+import { useContentStore } from '../store/useContentStore';
 
-interface ReferenceDrawerProps {
-    styleGuide: string;
-    setStyleGuide: (value: string) => void;
-    glossary: string;
-    setGlossary: (value: string) => void;
-}
+export default function ReferenceDrawer() {
+    const { styleGuide, setStyleGuide, glossary, setGlossary } = useContentStore();
 
-export default function ReferenceDrawer({
-    styleGuide,
-    setStyleGuide,
-    glossary,
-    setGlossary,
-}: ReferenceDrawerProps) {
-    const [isCollapsed, setIsCollapsed] = useState(false);
     const [showStyleGuidePreview, setShowStyleGuidePreview] = useState(false);
     const [showGlossaryPreview, setShowGlossaryPreview] = useState(false);
     const [isSavingStyleGuide, setIsSavingStyleGuide] = useState(false);
